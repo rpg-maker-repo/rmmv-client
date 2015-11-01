@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.trinary.rmmv.client.PluginClient;
-import com.trinary.rmmv.ro.PluginRO;
+import com.trinary.rpgmaker.ro.PluginRO;
 
 public class PluginClientTest {
 	public PluginRO createTestPlugin() {

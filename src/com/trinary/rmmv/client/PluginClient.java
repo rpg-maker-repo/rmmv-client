@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
-import com.trinary.rmmv.ro.PluginRO;
+import com.trinary.rpgmaker.ro.PluginRO;
 
 public class PluginClient {
 	protected Client client;
