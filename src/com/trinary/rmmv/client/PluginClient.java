@@ -16,6 +16,7 @@ import com.trinary.rpgmaker.ro.PluginRO;
 
 public class PluginClient {
 	protected Client client;
+	protected String baseUrl = "http://localhost:8080";
 	
 	public PluginClient() {
 		ClientConfig cc = new ClientConfig().register(new JacksonFeature());
@@ -24,7 +25,7 @@ public class PluginClient {
 	
 	public PluginRO createPlugin(PluginRO plugin) throws Exception {
 		Response res = client
-			.target("http://localhost:8080")
+			.target(baseUrl)
 			.path("/rmmv-api/v1/plugin")
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
@@ -43,7 +44,7 @@ public class PluginClient {
 	
 	public PluginRO addDependencies(long id, List<PluginRO> dependencies) throws Exception {
 		Response res = client
-			.target("http://localhost:8080")
+			.target(baseUrl)
 			.path("/rmmv-api/v1/plugin/" + id + "/dependency")
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
@@ -62,7 +63,7 @@ public class PluginClient {
 	
 	public List<PluginRO> getDependencies(Long id) throws Exception {
 		Response res = client
-			.target("http://localhost:8080")
+			.target(baseUrl)
 			.path("/rmmv-api/v1/plugin/" + id + "/dependency")
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
@@ -77,7 +78,7 @@ public class PluginClient {
 	
 	public PluginRO getPlugin(Long id) throws Exception {
 		Response res = client
-			.target("http://localhost:8080")
+			.target(baseUrl)
 			.path("/rmmv-api/v1/plugin/" + id)
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
@@ -92,7 +93,7 @@ public class PluginClient {
 	
 	public List<PluginRO> getAllPlugins() throws Exception {
 		Response res = client
-			.target("http://localhost:8080")
+			.target(baseUrl)
 			.path("/rmmv-api/v1/plugin")
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
@@ -111,7 +112,7 @@ public class PluginClient {
 	
 	public String getScript(Long id) throws Exception {
 		Response res = client
-			.target("http://localhost:8080")
+			.target(baseUrl)
 			.path("/rmmv-api/v1/plugin/" + id + "/script")
 			.request()
 			.accept(MediaType.TEXT_PLAIN)
