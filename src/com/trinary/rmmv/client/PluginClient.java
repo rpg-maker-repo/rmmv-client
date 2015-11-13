@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
+import com.trinary.rpgmaker.ro.PluginBaseRO;
 import com.trinary.rpgmaker.ro.PluginRO;
 
 public class PluginClient {
@@ -23,109 +24,93 @@ public class PluginClient {
 		client = ClientBuilder.newClient(cc);
 	}
 	
-	public PluginRO createPlugin(PluginRO plugin) throws Exception {
+	public PluginBaseRO get(Long id) throws Exception {
 		Response res = client
 			.target(baseUrl)
-			.path("/rmmv-api/v1/plugin")
-			.request()
-			.accept(MediaType.APPLICATION_JSON)
-			.post(Entity.entity(plugin, MediaType.APPLICATION_JSON));
-		
-		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
-		}
-		
-		return res.readEntity(PluginRO.class);
-	}
-	
-	public PluginRO addDependencies(PluginRO plugin, List<PluginRO> dependencies) throws Exception {
-		return addDependencies(plugin.getId(), dependencies);
-	}
-	
-	public PluginRO addDependencies(long id, List<PluginRO> dependencies) throws Exception {
-		Response res = client
-			.target(baseUrl)
-			.path("/rmmv-api/v1/plugin/" + id + "/dependency")
-			.request()
-			.accept(MediaType.APPLICATION_JSON)
-			.post(Entity.entity(dependencies, MediaType.APPLICATION_JSON));
-		
-		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
-		}
-		
-		return res.readEntity(PluginRO.class);
-	}
-	
-	public List<PluginRO> getDependencies(PluginRO plugin) throws Exception {
-		return getDependencies(plugin.getId());
-	}
-	
-	public List<PluginRO> getDependencies(Long id) throws Exception {
-		Response res = client
-			.target(baseUrl)
-			.path("/rmmv-api/v1/plugin/" + id + "/dependency")
+			.path("/rmmv-api/v1/base/" + id)
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
 			.get();
-		
+			
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
 			throw new Exception("Call failed.");
 		}
 		
-		return res.readEntity(new GenericType<List<PluginRO>>(){});
+		return res.readEntity(PluginBaseRO.class);
 	}
 	
-	public PluginRO getPlugin(Long id) throws Exception {
+	public List<PluginBaseRO> getAll() throws Exception {
 		Response res = client
 			.target(baseUrl)
-			.path("/rmmv-api/v1/plugin/" + id)
+			.path("/rmmv-api/v1/base/")
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
 			.get();
-		
+			
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
 			throw new Exception("Call failed.");
 		}
 		
-		return res.readEntity(PluginRO.class);
+		return res.readEntity(new GenericType<List<PluginBaseRO>>(){});
 	}
 	
-	public List<PluginRO> getAllPlugins() throws Exception {
+	public PluginBaseRO create(PluginBaseRO pluginBase) throws Exception {
 		Response res = client
 			.target(baseUrl)
-			.path("/rmmv-api/v1/plugin")
+			.path("/rmmv-api/v1/base/")
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
-			.get();
+			.post(Entity.entity(pluginBase, MediaType.APPLICATION_JSON));
 		
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
 			throw new Exception("Call failed.");
 		}
-
-		return res.readEntity(new GenericType<List<PluginRO>>(){});
-	}
-	
-	public String getScript(PluginRO plugin) throws Exception {
-		return getScript(plugin.getId());
-	}
-	
-	public String getScript(Long id) throws Exception {
-		Response res = client
-			.target(baseUrl)
-			.path("/rmmv-api/v1/plugin/" + id + "/script")
-			.request()
-			.accept(MediaType.TEXT_PLAIN)
-			.get();
 		
-		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
-		}
-
-		return res.readEntity(String.class);
+		return res.readEntity(PluginBaseRO.class);
 	}
 	
-	public PluginRO getPluginByHash(String hash) {
+	public PluginBaseRO create(PluginBaseRO pluginBase, PluginRO initialVersion) throws Exception {		
+		pluginBase = create(pluginBase);
+		addVersion(pluginBase, initialVersion);
+		
+		return pluginBase;
+	}
+	
+	public PluginBaseRO create(PluginBaseRO pluginBase, PluginRO initialVersion, List<PluginRO> initialVersionDependencies) throws Exception {		
 		return null;
+	}
+	
+	public PluginRO addVersion(PluginBaseRO pluginBase, PluginRO version) throws Exception {
+		return addVersion(pluginBase.getId(), version);
+	}
+	
+	public PluginRO addVersion(Long id, PluginRO version) throws Exception {
+		Response res = client
+			.target(baseUrl)
+			.path("/rmmv-api/v1/base/" + id + "/version")
+			.request()
+			.accept(MediaType.APPLICATION_JSON)
+			.post(Entity.entity(version, MediaType.APPLICATION_JSON));
+		
+		if (res.getStatus() < 200 || res.getStatus() >= 300) {
+			throw new Exception("Call failed.");
+		}
+		
+		return res.readEntity(PluginRO.class);
+	}
+	
+	public List<PluginRO> getVersions(Long id) throws Exception {
+		Response res = client
+			.target(baseUrl)
+			.path("/rmmv-api/v1/base/" + id + "/version")
+			.request()
+			.accept(MediaType.APPLICATION_JSON)
+			.get();
+			
+		if (res.getStatus() < 200 || res.getStatus() >= 300) {
+			throw new Exception("Call failed.");
+		}
+		
+		return res.readEntity(new GenericType<List<PluginRO>>(){});
 	}
 }
