@@ -113,4 +113,24 @@ public class PluginClient {
 		
 		return res.readEntity(new GenericType<List<PluginRO>>(){});
 	}
+	
+	public List<PluginRO> getLatestVersion(Long id) throws Exception {
+		Response res = client
+			.target(baseUrl)
+			.path("/rmmv-api/v1/base/" + id + "/version")
+			.queryParam("latest", true)
+			.request()
+			.accept(MediaType.APPLICATION_JSON)
+			.get();
+			
+		if (res.getStatus() < 200 || res.getStatus() >= 300) {
+			throw new Exception("Call failed.");
+		}
+		
+		return res.readEntity(new GenericType<List<PluginRO>>(){});
+	}
+	
+	public List<PluginRO> getLatestVersion(PluginBaseRO plugin) throws Exception {
+		return getLatestVersion(plugin.getId());
+	}
 }

@@ -111,8 +111,8 @@ public class PluginVersionClient {
 		return res.readEntity(String.class);
 	}
 	
-	public PluginBaseRO getBase(PluginRO plugin) {
-		return getBase(plugin);
+	public PluginBaseRO getBase(PluginRO plugin) throws Exception {
+		return getBase(plugin.getId());
 	}
 	
 	public PluginBaseRO getBase(Long id) throws Exception {
@@ -144,5 +144,11 @@ public class PluginVersionClient {
 			}
 
 			return res.readEntity(new GenericType<List<PluginRO>>(){});
+	}
+	
+	public List<PluginRO> getLatestVersion(PluginRO plugin) throws Exception {
+		PluginClient pluginClient = new PluginClient();
+		PluginBaseRO base = getBase(plugin);
+		return pluginClient.getLatestVersion(base);
 	}
 }
