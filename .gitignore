@@ -1,3 +1,5 @@
 *.class
 target/
 bin/
+build/
+test.properties

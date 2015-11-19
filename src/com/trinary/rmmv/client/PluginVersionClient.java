@@ -2,36 +2,17 @@ package com.trinary.rmmv.client;
 
 import java.util.List;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.jackson.JacksonFeature;
-
 import com.trinary.rpgmaker.ro.PluginBaseRO;
 import com.trinary.rpgmaker.ro.PluginRO;
 
-public class PluginVersionClient {
-	protected Client client;
-	protected String baseUrl = "http://localhost:8080";
-	protected String authString = "";
-	
-	public PluginVersionClient() {
-		setupClient();
-	}
-	
-	public PluginVersionClient(String authToken) {
-		this.authString = "Basic" + authToken;
-		setupClient();
-	}
-	
-	protected void setupClient() {
-		ClientConfig cc = new ClientConfig().register(new JacksonFeature());
-		client = ClientBuilder.newClient(cc);
+public class PluginVersionClient extends RMMVClient {
+	public PluginVersionClient(RMMVClientConfig config) {
+		super(config);
 	}
 	
 	public PluginRO addDependencies(PluginRO plugin, List<PluginRO> dependencies) throws Exception {
@@ -40,7 +21,7 @@ public class PluginVersionClient {
 	
 	public PluginRO addDependencies(long id, List<PluginRO> dependencies) throws Exception {
 		Response res = client
-			.target(baseUrl)
+			.target(config.getBaseUrl())
 			.path("/rmmv-api/v1/plugin/" + id + "/dependency")
 			.request()
 			.header("Authorization", authString)
@@ -60,7 +41,7 @@ public class PluginVersionClient {
 	
 	public List<PluginRO> getDependencies(Long id) throws Exception {
 		Response res = client
-			.target(baseUrl)
+			.target(config.getBaseUrl())
 			.path("/rmmv-api/v1/plugin/" + id + "/dependency")
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
@@ -75,7 +56,7 @@ public class PluginVersionClient {
 	
 	public PluginRO getPlugin(Long id) throws Exception {
 		Response res = client
-			.target(baseUrl)
+			.target(config.getBaseUrl())
 			.path("/rmmv-api/v1/plugin/" + id)
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
@@ -90,7 +71,7 @@ public class PluginVersionClient {
 	
 	public List<PluginRO> getAllPlugins() throws Exception {
 		Response res = client
-			.target(baseUrl)
+			.target(config.getBaseUrl())
 			.path("/rmmv-api/v1/plugin")
 			.request()
 			.accept(MediaType.APPLICATION_JSON)
@@ -109,7 +90,7 @@ public class PluginVersionClient {
 	
 	public String getScript(Long id) throws Exception {
 		Response res = client
-			.target(baseUrl)
+			.target(config.getBaseUrl())
 			.path("/rmmv-api/v1/plugin/" + id + "/script")
 			.request()
 			.accept(MediaType.TEXT_PLAIN)
@@ -128,7 +109,7 @@ public class PluginVersionClient {
 	
 	public PluginBaseRO getBase(Long id) throws Exception {
 		Response res = client
-				.target(baseUrl)
+				.target(config.getBaseUrl())
 				.path("/rmmv-api/v1/plugin/" + id + "/base")
 				.request()
 				.accept(MediaType.APPLICATION_JSON)
@@ -143,7 +124,7 @@ public class PluginVersionClient {
 	
 	public List<PluginRO> getPluginByHash(String hash) throws Exception {
 		Response res = client
-				.target(baseUrl)
+				.target(config.getBaseUrl())
 				.path("/rmmv-api/v1/plugin")
 				.queryParam("hash", hash)
 				.request()
@@ -158,7 +139,7 @@ public class PluginVersionClient {
 	}
 	
 	public List<PluginRO> getLatestVersion(PluginRO plugin) throws Exception {
-		PluginClient pluginClient = new PluginClient();
+		PluginClient pluginClient = new PluginClient(config);
 		PluginBaseRO base = getBase(plugin);
 		return pluginClient.getLatestVersion(base);
 	}

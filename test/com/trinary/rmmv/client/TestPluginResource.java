@@ -10,6 +10,8 @@ import com.trinary.rpgmaker.ro.PluginBaseRO;
 import com.trinary.rpgmaker.ro.PluginRO;
 
 public class TestPluginResource {
+	public static RMMVClientConfig config = new RMMVClientConfig("test.properties");
+	
 	public static PluginBaseRO createTestPlugin() {
 		PluginBaseRO base = new PluginBaseRO();
 		base.setName("Super Duper Plugin");
@@ -29,7 +31,7 @@ public class TestPluginResource {
 	
 	@Test
 	public void testGetAllPlugins() {
-		PluginClient client = new PluginClient();
+		PluginClient client = new PluginClient(config);
 		List<PluginBaseRO> plugins = null;
 		try {
 			plugins = client.getAll();
@@ -42,7 +44,7 @@ public class TestPluginResource {
 	
 	@Test
 	public void testCreateNew1() {
-		PluginClient client = new PluginClient();
+		PluginClient client = new PluginClient(config);
 		
 		PluginBaseRO base = createTestPlugin();
 		
@@ -59,7 +61,7 @@ public class TestPluginResource {
 	
 	@Test
 	public void testCreateNew2() {
-		PluginClient client = new PluginClient();
+		PluginClient client = new PluginClient(config);
 		
 		PluginBaseRO base = createTestPlugin();
 		PluginRO version = createTestVersion();
@@ -77,7 +79,7 @@ public class TestPluginResource {
 	
 	@Test
 	public void testCreateVersion() {
-		PluginClient client = new PluginClient();
+		PluginClient client = new PluginClient(config);
 		
 		PluginBaseRO base = createTestPlugin();
 		PluginRO version = createTestVersion();

@@ -9,10 +9,11 @@ import org.junit.Test;
 import com.trinary.rpgmaker.ro.PluginRO;
 
 public class TestPluginVersionResource {
+	public static RMMVClientConfig config = new RMMVClientConfig("test.properties");
 
 	@Test
 	public void testGetAllVersions() {
-		PluginVersionClient client = new PluginVersionClient();
+		PluginVersionClient client = new PluginVersionClient(config);
 		List<PluginRO> plugins = null;
 		try {
 			plugins = client.getAllPlugins();
