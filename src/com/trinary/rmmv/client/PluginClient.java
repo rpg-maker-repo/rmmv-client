@@ -18,8 +18,18 @@ import com.trinary.rpgmaker.ro.PluginRO;
 public class PluginClient {
 	protected Client client;
 	protected String baseUrl = "http://localhost:8080";
+	protected String authString = "";
 	
 	public PluginClient() {
+		setupClient();
+	}
+	
+	public PluginClient(String authToken) {
+		this.authString = "Basic" + authToken;
+		setupClient();
+	}
+	
+	protected void setupClient() {
 		ClientConfig cc = new ClientConfig().register(new JacksonFeature());
 		client = ClientBuilder.newClient(cc);
 	}
@@ -59,6 +69,7 @@ public class PluginClient {
 			.target(baseUrl)
 			.path("/rmmv-api/v1/base/")
 			.request()
+			.header("Authorization", authString)
 			.accept(MediaType.APPLICATION_JSON)
 			.post(Entity.entity(pluginBase, MediaType.APPLICATION_JSON));
 		
@@ -89,6 +100,7 @@ public class PluginClient {
 			.target(baseUrl)
 			.path("/rmmv-api/v1/base/" + id + "/version")
 			.request()
+			.header("Authorization", authString)
 			.accept(MediaType.APPLICATION_JSON)
 			.post(Entity.entity(version, MediaType.APPLICATION_JSON));
 		
@@ -133,4 +145,6 @@ public class PluginClient {
 	public List<PluginRO> getLatestVersion(PluginBaseRO plugin) throws Exception {
 		return getLatestVersion(plugin.getId());
 	}
+	
+	
 }
