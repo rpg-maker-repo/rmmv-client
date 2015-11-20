@@ -9,16 +9,23 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 public abstract class RMMVClient {
 	protected Client client;
 	protected RMMVClientConfig config;
+	protected RMMVBasicAuthentication authenticationFilter;
 	protected String authString;
 	
 	public RMMVClient(RMMVClientConfig config) {
 		this.config = config;
-		this.authString = String.format(config.getAuthStringTemplate(), config.getAuthToken());
+		// Auth Token takes precedence over username/password
+		if (config.getAuthToken() != null) {
+			this.authenticationFilter = new RMMVBasicAuthentication(config.getAuthToken());
+		} else if (config.getUsername() != null && config.getPassword() != null) {
+			this.authenticationFilter = new RMMVBasicAuthentication(config.getUsername(), config.getPassword());
+		}
 		setupClient();
 	}
 	
 	protected void setupClient() {
 		ClientConfig cc = new ClientConfig().register(new JacksonFeature());
 		client = ClientBuilder.newClient(cc);
+		client.register(authenticationFilter);
 	}
 }

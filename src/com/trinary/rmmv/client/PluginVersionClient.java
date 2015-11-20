@@ -24,7 +24,6 @@ public class PluginVersionClient extends RMMVClient {
 			.target(config.getBaseUrl())
 			.path("/rmmv-api/v1/plugin/" + id + "/dependency")
 			.request()
-			.header("Authorization", authString)
 			.accept(MediaType.APPLICATION_JSON)
 			.post(Entity.entity(dependencies, MediaType.APPLICATION_JSON));
 		

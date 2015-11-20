@@ -51,7 +51,6 @@ public class PluginClient extends RMMVClient {
 			.target(config.getBaseUrl())
 			.path("/rmmv-api/v1/base/")
 			.request()
-			.header("Authorization", authString)
 			.accept(MediaType.APPLICATION_JSON)
 			.post(Entity.entity(pluginBase, MediaType.APPLICATION_JSON));
 		
@@ -82,7 +81,6 @@ public class PluginClient extends RMMVClient {
 			.target(config.getBaseUrl())
 			.path("/rmmv-api/v1/base/" + id + "/version")
 			.request()
-			.header("Authorization", authString)
 			.accept(MediaType.APPLICATION_JSON)
 			.post(Entity.entity(version, MediaType.APPLICATION_JSON));
 		

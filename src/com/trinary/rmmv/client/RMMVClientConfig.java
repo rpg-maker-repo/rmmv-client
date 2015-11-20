@@ -9,8 +9,9 @@ import java.util.Properties;
 
 public class RMMVClientConfig {
 	protected String baseUrl;
+	protected String username;
+	protected String password;
 	protected String authToken;
-	protected String authStringTemplate;
 	
 	public RMMVClientConfig(String propertiesFile) {
 		this(new File(propertiesFile));
@@ -25,7 +26,8 @@ public class RMMVClientConfig {
 			
 			baseUrl = props.getProperty("client.baseUrl");
 			authToken = props.getProperty("client.authToken");
-			authStringTemplate = props.getProperty("client.authStringTemplate");
+			username  = props.getProperty("client.username");
+			password  = props.getProperty("client.password");
 			in.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -67,16 +69,32 @@ public class RMMVClientConfig {
 	}
 
 	/**
-	 * @return the authStringTemplate
+	 * @return the username
 	 */
-	public String getAuthStringTemplate() {
-		return authStringTemplate;
+	public String getUsername() {
+		return username;
 	}
 
 	/**
-	 * @param authStringTemplate the authStringTemplate to set
+	 * @param username the username to set
 	 */
-	public void setAuthStringTemplate(String authStringTemplate) {
-		this.authStringTemplate = authStringTemplate;
+	public void setUsername(String username) {
+		this.username = username;
 	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 }
