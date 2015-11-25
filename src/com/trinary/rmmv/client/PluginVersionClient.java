@@ -28,7 +28,7 @@ public class PluginVersionClient extends RMMVClient {
 			.post(Entity.entity(dependencies, MediaType.APPLICATION_JSON));
 		
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 		
 		return res.readEntity(PluginRO.class);
@@ -47,7 +47,7 @@ public class PluginVersionClient extends RMMVClient {
 			.get();
 		
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 		
 		return res.readEntity(new GenericType<List<PluginRO>>(){});
@@ -62,7 +62,7 @@ public class PluginVersionClient extends RMMVClient {
 			.get();
 		
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 		
 		return res.readEntity(PluginRO.class);
@@ -77,7 +77,7 @@ public class PluginVersionClient extends RMMVClient {
 			.get();
 		
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 
 		return res.readEntity(new GenericType<List<PluginRO>>(){});
@@ -96,7 +96,7 @@ public class PluginVersionClient extends RMMVClient {
 			.get();
 		
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 
 		return res.readEntity(String.class);
@@ -115,7 +115,7 @@ public class PluginVersionClient extends RMMVClient {
 				.get();
 			
 			if (res.getStatus() < 200 || res.getStatus() >= 300) {
-				throw new Exception("Call failed.");
+				throw new Exception("Call failed with status " + res.getStatus() + ".");
 			}
 
 			return res.readEntity(PluginBaseRO.class);
@@ -131,7 +131,7 @@ public class PluginVersionClient extends RMMVClient {
 				.get();
 			
 			if (res.getStatus() < 200 || res.getStatus() >= 300) {
-				throw new Exception("Call failed.");
+				throw new Exception("Call failed with status " + res.getStatus() + ".");
 			}
 
 			return res.readEntity(new GenericType<List<PluginRO>>(){});

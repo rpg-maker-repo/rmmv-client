@@ -25,7 +25,7 @@ public class PluginClient extends RMMVClient {
 			.get();
 			
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 		
 		return res.readEntity(PluginBaseRO.class);
@@ -40,7 +40,7 @@ public class PluginClient extends RMMVClient {
 			.get();
 			
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 		
 		return res.readEntity(new GenericType<List<PluginBaseRO>>(){});
@@ -55,7 +55,7 @@ public class PluginClient extends RMMVClient {
 			.post(Entity.entity(pluginBase, MediaType.APPLICATION_JSON));
 		
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 		
 		return res.readEntity(PluginBaseRO.class);
@@ -85,7 +85,7 @@ public class PluginClient extends RMMVClient {
 			.post(Entity.entity(version, MediaType.APPLICATION_JSON));
 		
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 		
 		return res.readEntity(PluginRO.class);
@@ -100,7 +100,7 @@ public class PluginClient extends RMMVClient {
 			.get();
 			
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 		
 		return res.readEntity(new GenericType<List<PluginRO>>(){});
@@ -116,7 +116,7 @@ public class PluginClient extends RMMVClient {
 			.get();
 			
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 		
 		return res.readEntity(new GenericType<List<PluginRO>>(){});
@@ -125,6 +125,4 @@ public class PluginClient extends RMMVClient {
 	public List<PluginRO> getLatestVersion(PluginBaseRO plugin) throws Exception {
 		return getLatestVersion(plugin.getId());
 	}
-	
-	
 }

@@ -11,7 +11,6 @@ public class RMMVClientConfig {
 	protected String baseUrl;
 	protected String username;
 	protected String password;
-	protected String authToken;
 	
 	public RMMVClientConfig(String propertiesFile) {
 		this(new File(propertiesFile));
@@ -25,7 +24,6 @@ public class RMMVClientConfig {
 			props.load(in);
 			
 			baseUrl = props.getProperty("client.baseUrl");
-			authToken = props.getProperty("client.authToken");
 			username  = props.getProperty("client.username");
 			password  = props.getProperty("client.password");
 			in.close();
@@ -52,20 +50,6 @@ public class RMMVClientConfig {
 	 */
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
-	}
-
-	/**
-	 * @return the authToken
-	 */
-	public String getAuthToken() {
-		return authToken;
-	}
-
-	/**
-	 * @param authToken the authToken to set
-	 */
-	public void setAuthToken(String authToken) {
-		this.authToken = authToken;
 	}
 
 	/**

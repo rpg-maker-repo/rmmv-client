@@ -12,27 +12,23 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import com.trinary.rpgmaker.ro.AuthenticationRO;
 import com.trinary.rpgmaker.ro.TokenRO;
 
-public class RMMVClient {
+public class AuthClient {
 	protected Client client;
 	protected RMMVClientConfig config;
-	protected RMMVBasicAuthentication authenticationFilter;
 	
-	public RMMVClient(RMMVClientConfig config) {
+	public AuthClient(RMMVClientConfig config) {
 		this.config = config;
-		// Auth Token takes precedence over username/password
-		this.authenticationFilter = new RMMVBasicAuthentication(config);
 		setupClient();
 	}
 	
 	protected void setupClient() {
 		ClientConfig cc = new ClientConfig().register(new JacksonFeature());
 		client = ClientBuilder.newClient(cc);
-		client.register(authenticationFilter);
 	}
 	
 	public TokenRO authenticate(String username, String password) throws Exception {
 		AuthenticationRO authentication = new AuthenticationRO();
-		authentication.setUsername(config.username);
+		authentication.setUsername(config.getUsername());
 		authentication.setPassword(config.getPassword());
 		Response res = client
 				.target(config.baseUrl)
@@ -41,7 +37,7 @@ public class RMMVClient {
 				.post(Entity.entity(authentication, MediaType.APPLICATION_JSON));
 		
 		if (res.getStatus() < 200 || res.getStatus() >= 300) {
-			throw new Exception("Call failed.");
+			throw new Exception("Call failed with status " + res.getStatus() + ".");
 		}
 		
 		return res.readEntity(TokenRO.class);
